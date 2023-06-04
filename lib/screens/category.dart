@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/screens/cafe.dart';
 import 'package:flutter_application_1/screens/libur.dart';
 import 'package:flutter_application_1/screens/museum.dart';

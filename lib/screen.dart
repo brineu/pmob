@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter_application_1/screens/profile.dart';
 import 'package:flutter_application_1/screens/category.dart';
 import 'package:flutter_application_1/screens/home_page.dart';

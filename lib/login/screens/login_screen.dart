@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/Auth.dart';
 import './signup_screen.dart';
 
 import '../components/page_title_bar.dart';
 import '../components/under_part.dart';
-import '../components/upside.dart';
 import '../constants.dart';
 import '../widget/rounded_button.dart';
-import '../widget/rounded_icon.dart';
-import '../widget/rounded_input_field.dart';
-import '../widget/rounded_password_field.dart';
-
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  String errorMessage = '';
+
+  @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -57,45 +65,71 @@ class LoginScreen extends StatelessWidget {
                               fontSize: 13,
                               fontWeight: FontWeight.w600),
                         ),
-                        Form(
-                          child: Column(
-                            children: [
-                              const RoundedInputField(
-                                  hintText: "Email", icon: Icons.email),
-                              const RoundedPasswordField(),
-                              switchListTile(),
-                              RoundedButton(text: 'LOGIN', press: () {}),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              UnderPart(
-                                title: "Don't have an account?",
-                                navigatorText: "Register here",
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              const SignUpScreen()));
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                'Forgot password?',
-                                style: TextStyle(
+                        Column(
+                          children: [
+                            TextFormField(
+                              controller: emailController,
+                              cursorColor: kPrimaryColor,
+                              decoration: const InputDecoration(
+                                  icon: Icon(
+                                    Icons.email,
                                     color: kPrimaryColor,
-                                    fontFamily: 'OpenSans',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              )
-                            ],
-                          ),
-                        )
+                                  ),
+                                  hintText: "Email",
+                                  hintStyle: TextStyle(fontFamily: 'OpenSans'),
+                                  border: InputBorder.none),
+                            ),
+                            TextFormField(
+                              controller: passwordController,
+                              obscureText: true,
+                              cursorColor: kPrimaryColor,
+                              decoration: const InputDecoration(
+                                  icon: Icon(
+                                    Icons.lock,
+                                    color: kPrimaryColor,
+                                  ),
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(fontFamily: 'OpenSans'),
+                                  suffixIcon: Icon(
+                                    Icons.visibility,
+                                    color: kPrimaryColor,
+                                  ),
+                                  border: InputBorder.none),
+                            ),
+                            switchListTile(),
+                            RoundedButton(text: 'LOGIN', press: () async {
+                              await authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
+                            }),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            UnderPart(
+                              title: "Don't have an account?",
+                              navigatorText: "Register here",
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpScreen()));
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                  color: kPrimaryColor,
+                                  fontFamily: 'OpenSans',
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 13),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            )
+                          ],
+                        ),
                       ],
                     ),
                   ),

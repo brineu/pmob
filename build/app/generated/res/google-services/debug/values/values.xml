@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">174883659597-cl2gbnmg1v9rd39dpbsunv9denelscc1.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">174883659597</string>
+    <string name="google_api_key" translatable="false">AIzaSyD3rOoVE2SadS28ftpzu0kcSIstN4GDr5Q</string>
+    <string name="google_app_id" translatable="false">1:174883659597:android:99ead48da5617b48322104</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD3rOoVE2SadS28ftpzu0kcSIstN4GDr5Q</string>
+    <string name="google_storage_bucket" translatable="false">gowalkz.appspot.com</string>
+    <string name="project_id" translatable="false">gowalkz</string>
+</resources>

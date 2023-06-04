@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/Auth.dart';
 import '../components/page_title_bar.dart';
 import '../components/under_part.dart';
-import '../components/upside.dart';
+import '../constants.dart';
 import '../widget/rounded_button.dart';
-import '../widget/rounded_input_field.dart';
-import '../widget/rounded_password_field.dart';
 import 'login_screen.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
   @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController photoController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -58,12 +68,77 @@ class SignUpScreen extends StatelessWidget {
                         Form(
                           child: Column(
                             children: [
-                              const RoundedInputField(
-                                  hintText: "Email", icon: Icons.email),
-                              const RoundedInputField(
-                                  hintText: "Name", icon: Icons.person),
-                              const RoundedPasswordField(),
-                              RoundedButton(text: 'REGISTER', press: () {}),
+                              TextFormField(
+                                controller: emailController,
+                                cursorColor: kPrimaryColor,
+                                decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.email,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Email",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none),
+                              ),
+                              TextFormField(
+                                controller: nameController,
+                                cursorColor: kPrimaryColor,
+                                decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.person,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Name",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none),
+                              ),
+                              TextFormField(
+                                controller: photoController,
+                                cursorColor: kPrimaryColor,
+                                decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.image,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Profile Picture URL",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    border: InputBorder.none),
+                              ),
+                              TextFormField(
+                                controller: passwordController,
+                                obscureText: true,
+                                cursorColor: kPrimaryColor,
+                                decoration: const InputDecoration(
+                                    icon: Icon(
+                                      Icons.lock,
+                                      color: kPrimaryColor,
+                                    ),
+                                    hintText: "Password",
+                                    hintStyle:
+                                        TextStyle(fontFamily: 'OpenSans'),
+                                    suffixIcon: Icon(
+                                      Icons.visibility,
+                                      color: kPrimaryColor,
+                                    ),
+                                    border: InputBorder.none),
+                              ),
+                              RoundedButton(
+                                  text: 'REGISTER',
+                                  press: () async {
+                                    await authService
+                                        .createUserWithEmailAndPassword(
+                                            emailController.text,
+                                            passwordController.text,
+                                            nameController.text, photoController.text).then((value) => authService.updateUserData(nameController.text, photoController.text));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()));
+                                  }),
                               const SizedBox(
                                 height: 10,
                               ),
